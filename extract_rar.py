@@ -25,6 +25,6 @@ if __name__ == "__main__":
     # folder_path = input("Enter the path to the folder containing subfolders with .rar files: ")
     folder_path = "G:\\Data"
     destination_path = "G:\\Data_Selected"
-    valid_prefixes = ['31', '32', '33', '91', '36', '67', '61', '26', '71', '73', '83', '97']
+    valid_prefixes = ['91', '61', '26', '57', '54']
     extract_rar_files(folder_path, valid_prefixes)
     print("Extraction complete.")
