@@ -5,24 +5,27 @@ library(jalcal)
 
 setwd('G:/Data_Selected')
 
+start_year = 1395
+end_year = 1401
+
+road_list = list('SistanAndBaluchestan' = c(613102, 613402, 613508, 613801),
+                 'AzarbayjanQharbi' = c(573106, 573503, 574156),
+                 'AzarbayjanSharghi' = c(263752, 263852))
 
 country = 'AzarbayjanQharbi'
-# root = '1400/1/AzarbayjanQharbi/Daily'
-# files = list.files(path = root, recursive = T, full.names = TRUE)
+roads = road_list[[country]]
+save_path = paste0('C:/Users/Almas/OneDrive/Documents/R/', country,
+                   start_year, '-',end_year, '.csv')
+# save_path = 'C:/Users/Almas/OneDrive/Documents/R/AzarbayjanQharbi1395-1401.csv'
 
 files <- c()
-for (year in 1395:1401) {
+for (year in start_year:end_year) {
   for (month in 1:12) {
     root <- file.path(as.character(year), as.character(month), country, "Daily")
     files <- c(files, list.files(path = root, recursive = T, full.names = TRUE))
   }
 }
 
-# year = '1395'
-# for (month in 1:12) {
-#   root <- file.path(year, as.character(month), country, "Daily")
-#   files <- c(files, list.files(path = root, recursive = T, full.names = TRUE))
-# }
 
 tables <- lapply(files, read_excel)
 D <- do.call(rbind , tables)
@@ -58,6 +61,8 @@ View(D0)
 D1 <- D0 %>% group_by(road_id,year, month) %>% summarize(road_name = first(road_name),
             vehicles_total = sum(n_adjusted),time = first(time)) %>% ungroup() %>%
   arrange(year, month) %>% select(road_id, road_name, vehicles_total, everything())
+
+D1 <- D1 %>% filter(road_id %in% roads) 
 View(D1)
 
-write.csv(D1, 'C:/Users/Almas/OneDrive/Documents/R/AzarbayjanQharbi1395-1401.csv', fileEncoding = 'UTF-8')
+write.csv(D1, save_path, fileEncoding = 'UTF-8', row.names = F)
