@@ -9,13 +9,12 @@ start_year = 1395
 end_year = 1401
 
 road_list = list('SistanAndBaluchestan' = c(613102, 613402, 613508, 613801),
-                 'AzarbayjanQharbi' = c(573106, 573503, 574156),
+                 'AzarbayjanQharbi' = c(573153, 574156, 573503),
                  'AzarbayjanSharghi' = c(263752, 263852))
 
 country = 'AzarbayjanQharbi'
+# roads = c(573153, 574156, 573503)
 roads = road_list[[country]]
-save_path = paste0('C:/Users/Almas/OneDrive/Documents/R/', country,
-                   start_year, '-',end_year, '.csv')
 # save_path = 'C:/Users/Almas/OneDrive/Documents/R/AzarbayjanQharbi1395-1401.csv'
 
 files <- c()
@@ -58,11 +57,23 @@ D0 <- D0 %>% mutate(month = format(time, "%m"))
 D0 <- D0 %>% mutate(year = format(time, "%Y"))
 View(D0)
 
+save_path = paste0('C:/Users/Almas/OneDrive/Documents/R/All', country, '.csv')
+write.csv(D0, save_path, fileEncoding = 'UTF-8', row.names = F)
+
+
 D1 <- D0 %>% group_by(road_id,year, month) %>% summarize(road_name = first(road_name),
             vehicles_total = sum(n_adjusted),time = first(time)) %>% ungroup() %>%
   arrange(year, month) %>% select(road_id, road_name, vehicles_total, everything())
 
-D1 <- D1 %>% filter(road_id %in% roads) 
-View(D1)
-
+save_path = paste0('C:/Users/Almas/OneDrive/Documents/R/All', country,
+                   start_year, '-',end_year, '.csv')
 write.csv(D1, save_path, fileEncoding = 'UTF-8', row.names = F)
+
+D2 <- D1 %>% filter(road_id %in% roads) 
+View(D2)
+
+save_path = paste0('C:/Users/Almas/OneDrive/Documents/R/', country,
+                   start_year, '-',end_year, '.csv')
+write.csv(D2, save_path, fileEncoding = 'UTF-8', row.names = F)
+
+
