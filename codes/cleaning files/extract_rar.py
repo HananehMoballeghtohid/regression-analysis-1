@@ -26,5 +26,5 @@ if __name__ == "__main__":
     folder_path = "G:\\Data"
     destination_path = "G:\\Data_Selected"
     valid_prefixes = ['91', '61', '26', '57', '54']
-    extract_rar_files(folder_path, valid_prefixes)
+    extract_rar_files(folder_path, ['11'])
     print("Extraction complete.")

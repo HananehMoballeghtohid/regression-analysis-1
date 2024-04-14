@@ -29,5 +29,5 @@ for i in range(100):
     time.sleep(2)
 
 df = pd.DataFrame(data)
-df.to_csv('doolar.csv', index=False)
+df.to_csv('dollar_price.csv', index=False)
 print(df)
